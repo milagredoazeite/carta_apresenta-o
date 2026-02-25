@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f3f4f6; /* Fundo cinza apenas para visualização no ecrã */
+            background-color: #f3f4f6;
             display: flex;
             justify-content: center;
             padding: 2rem 0;
@@ -34,17 +34,19 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Container formato A4 */
+        /* Container formato A4 - Fixado em exatos 1 página */
         .page-a4 {
             width: 210mm;
-            min-height: 297mm;
+            height: 296mm; /* Ajustado para não criar página extra (297mm é o limite, deixamos 296 para margem de segurança do navegador) */
+            max-height: 296mm;
             background: white;
-            padding: 25mm 20mm; /* Margens internas da folha */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Sombra apenas no ecrã */
+            padding: 20mm 20mm; /* Reduzido levemente para dar mais espaço ao texto */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             position: relative;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            overflow: hidden; /* Garante que nada passe desta página */
         }
 
         /* Detalhe superior da folha */
@@ -61,20 +63,21 @@
         @media print {
             @page {
                 size: A4;
-                margin: 0; /* Remove margens padrão do navegador */
+                margin: 0;
             }
             body {
                 background: white;
                 padding: 0;
             }
             .page-a4 {
-                width: 100%;
-                min-height: 100vh;
-                box-shadow: none; /* Remove a sombra na impressão */
-                padding: 25mm 20mm;
+                width: 210mm;
+                height: 296mm;
+                box-shadow: none;
+                padding: 20mm 20mm;
                 margin: 0;
+                page-break-after: avoid;
+                page-break-before: avoid;
             }
-            /* Ocultar elementos desnecessários na impressão (se houver botões de ação externos) */
             .no-print {
                 display: none !important;
             }
@@ -84,7 +87,7 @@
 <body>
 
     <!-- Instrução para visualização no ecrã -->
-    <div class="fixed top-4 right-4 no-print">
+    <div class="fixed top-4 right-4 no-print z-50">
         <button onclick="window.print()" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg flex items-center gap-2 transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
             Imprimir Carta
@@ -96,22 +99,22 @@
         
         <div class="top-stripe"></div>
 
-        <!-- Cabeçalho -->
-        <div class="flex flex-col justify-center items-center text-center mb-8">
-            <img src="Logo_MAPAF.jpg" alt="Logo MAPAF" class="h-28 object-contain mb-4">
-            <p class="text-orange-600 font-semibold tracking-widest uppercase text-xs mb-2">Carta de Apresentação</p>
+        <!-- Cabeçalho (Reduzido os espaços para otimizar 1 página) -->
+        <div class="flex flex-col justify-center items-center text-center mb-5 mt-2">
+            <img src="Logo_MAPAF.jpg" alt="Logo MAPAF" class="h-24 object-contain mb-3">
+            <p class="text-orange-600 font-semibold tracking-widest uppercase text-xs mb-1">Carta de Apresentação</p>
             <h1 class="text-2xl font-bold text-gray-800 title-font leading-tight">
                 Uma Família, Um Propósito, <br><span class="fire-gradient">Uma Chama que não se apaga!</span> 🔥
             </h1>
         </div>
 
         <!-- Divisor -->
-        <div class="flex justify-center mb-10">
+        <div class="flex justify-center mb-6">
             <div class="w-20 h-1 bg-orange-200 rounded-full"></div>
         </div>
 
         <!-- Conteúdo do Texto -->
-        <div class="text-left space-y-6 flex-grow text-gray-800 text-[11pt] leading-relaxed">
+        <div class="text-left space-y-4 flex-grow text-gray-800 text-[11pt] leading-relaxed flex flex-col justify-center">
             
             <p class="font-medium text-[12pt]">
                 Shalom! É com o coração transbordando de alegria que chegamos até você. ✨
@@ -122,7 +125,7 @@
             </p>
 
             <!-- Bloco de Destaque -->
-            <div class="bg-orange-50 border-l-4 border-orange-500 p-5 rounded-r-lg my-6">
+            <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg my-2">
                 <p class="font-medium italic text-gray-700">
                     "Acreditamos que você não está lendo esta mensagem por acaso. Existe um destino profético para a sua vida! Durante mais de duas décadas, temos visto famílias restauradas, feridas curadas e propósitos descobertos pelo poder do Evangelho." 🕊️
                 </p>
@@ -133,26 +136,26 @@
             </p>
 
             <!-- O Convite -->
-            <div class="text-center pt-8 pb-4">
-                <h2 class="text-lg font-bold text-gray-900 title-font mb-2">Você é o nosso convidado especial! 🚪</h2>
+            <div class="text-center pt-4 pb-2">
+                <h2 class="text-lg font-bold text-gray-900 title-font mb-1">Você é o nosso convidado especial! 🚪</h2>
                 <p class="text-gray-700">
                     Venha fazer parte do que Deus está construindo. Há um lugar de honra<br>na mesa do Pai preparado exclusivamente para você e sua família.
                 </p>
             </div>
 
-            <!-- Espaço para assinatura do líder / tutor (opcional) -->
-            <div class="pt-8 text-center flex flex-col items-center">
-                <img src="e_assin_apdantas.png" alt="Ass Apostolo" class="h-12 object-contain mb-1 transform -rotate-0 mix-blend-multiply contrast-125 brightness-95"">
-                <div class="w-48 border-t border-gray-400 mb-2"></div>
+            <!-- Espaço para assinatura do líder / tutor -->
+            <div class="pt-4 text-center flex flex-col items-center">
+                <img src="e_assin_apdantas.png" alt="Ass Apostolo" class="h-12 object-contain mb-1 transform mix-blend-multiply contrast-125 brightness-95">
+                <div class="w-48 border-t border-gray-400 mb-1"></div>
                 <p class="text-xs text-gray-500 font-medium">Apóstolo Francisco Dantas</p>
-                <p class="text-xs text-gray-500 font-medium">Ministério Apostólico Avivamento da Fé</p>
+                <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wide">Ministério Apostólico Avivamento da Fé</p>
             </div>
 
         </div>
 
-        <!-- Rodapé para Impressão -->
-        <div class="mt-8 pt-6 border-t border-gray-200">
-            <p class="text-center text-gray-500 text-xs font-semibold uppercase tracking-wider mb-4">Conecte-se connosco nas Redes Sociais</p>
+        <!-- Rodapé para Impressão (mt-auto garante que ele cole no fundo da página sem passar do limite) -->
+        <div class="mt-auto pt-4 border-t border-gray-200">
+            <p class="text-center text-gray-500 text-[10px] font-semibold uppercase tracking-wider mb-3">Conecte-se conosco nas Redes Sociais</p>
             
             <div class="flex flex-row justify-center gap-10 items-center text-sm text-gray-700">
                 
